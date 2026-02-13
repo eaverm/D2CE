@@ -14745,7 +14745,7 @@ const std::vector<std::string> d2ce::LocalizationHelpers::GetCharacterTypes(bool
     for (const auto& str : all_legacy_types)
     {
         results.resize(results.size() + 1);
-        GetStringTxtValue(str, results.back(), str);
+        GetStringTxtValue(str, results.back(), str.c_str());
     }
 
     if (isExpansion)
@@ -14754,7 +14754,7 @@ const std::vector<std::string> d2ce::LocalizationHelpers::GetCharacterTypes(bool
         for (const auto& str : all_expansion_types)
         {
             results.resize(results.size() + 1);
-            GetStringTxtValue(str, results.back(), str);
+            GetStringTxtValue(str, results.back(), str.c_str());
         }
     }
 
