@@ -14740,21 +14740,21 @@ const std::vector<std::string> d2ce::LocalizationHelpers::GetCharacterTitles(boo
 const std::vector<std::string> d2ce::LocalizationHelpers::GetCharacterTypes(bool isExpansion)
 {
     std::vector<std::string> results;
-    results.reserve(7);
+    results.reserve(8);
     static std::vector<std::string> all_legacy_types = { "Amazon", "Sorceress", "Necromancer", "Paladin", "Barbarian" };
     for (const auto& str : all_legacy_types)
     {
         results.resize(results.size() + 1);
-        GetStringTxtValue(str, results.back());
+        GetStringTxtValue(str, results.back(), str);
     }
 
     if (isExpansion)
     {
-        static std::vector<std::string> all_expansion_types = { "Druid", "Assassin" };
+        static std::vector<std::string> all_expansion_types = { "Druid", "Assassin", "Warlock" };
         for (const auto& str : all_expansion_types)
         {
             results.resize(results.size() + 1);
-            GetStringTxtValue(str, results.back());
+            GetStringTxtValue(str, results.back(), str);
         }
     }
 
@@ -14832,9 +14832,9 @@ std::string d2ce::ColorHelpers::GetColorEscapeString(D2Colors code)
 //---------------------------------------------------------------------------
 std::wstring& d2ce::ColorHelpers::RemoveColorFromText(std::wstring& coloredText)
 {
-    if (coloredText.find(L"ÿc") != std::wstring::npos)
+    if (coloredText.find(L"Ã¿c") != std::wstring::npos)
     {
-        static std::wregex re{ L"ÿc." };
+        static std::wregex re{ L"Ã¿c." };
         coloredText = std::regex_replace(coloredText, re, L"");
     }
     

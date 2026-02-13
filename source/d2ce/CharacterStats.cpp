@@ -205,7 +205,7 @@ namespace d2ce
     std::map<std::string, d2ce::EnumCharClass> s_CharClassEnumNameMap = { {"Amazon", d2ce::EnumCharClass::Amazon},
         {"Sorceress", d2ce::EnumCharClass::Sorceress}, {"Necromancer", d2ce::EnumCharClass::Necromancer},
         {"Paladin", d2ce::EnumCharClass::Paladin}, {"Barbarian", d2ce::EnumCharClass::Barbarian},
-        {"Druid", d2ce::EnumCharClass::Druid}, {"Assassin", d2ce::EnumCharClass::Assassin} };
+        {"Druid", d2ce::EnumCharClass::Druid}, {"Assassin", d2ce::EnumCharClass::Assassin}, {"Warlock", d2ce::EnumCharClass::Warlock} };
     std::map<std::string, std::uint16_t> s_CharClassNameMap;
     std::map<d2ce::EnumCharClass, std::uint16_t> s_CharClassEnumMap;
     std::map<std::uint16_t, CharacterInfoType> s_CharClassInfo;
@@ -590,6 +590,43 @@ namespace d2ce
                 LocalizationHelpers::GetStringTxtValue("SkillCategoryAs2", item.StrSklTreeTab2, "Shadow Disciplines");
                 LocalizationHelpers::GetStringTxtValue("SkillCategoryAs3", item.StrSklTreeTab3, "Traps");
                 break;
+
+            case EnumCharClass::Warlock:
+                LocalizationHelpers::GetStringTxtValue("SkillCategoryWa1", item.StrSklTreeTab1, "Warlock Skills");
+                LocalizationHelpers::GetStringTxtValue("SkillCategoryWa2", item.StrSklTreeTab2, "Warlock Skills");
+                LocalizationHelpers::GetStringTxtValue("SkillCategoryWa3", item.StrSklTreeTab3, "Warlock Skills");
+                break;
+            }
+        }
+
+        auto warlockIter = charClassEnumMap.find(EnumCharClass::Warlock);
+        if (warlockIter == charClassEnumMap.end())
+        {
+            auto assassinIter = charClassEnumMap.find(EnumCharClass::Assassin);
+            if (assassinIter != charClassEnumMap.end())
+            {
+                auto assassinInfoIter = charClassInfo.find(assassinIter->second);
+                if (assassinInfoIter != charClassInfo.end())
+                {
+                    const auto nextIdx = static_cast<std::uint16_t>(charClassInfo.size());
+                    auto warlockInfo = assassinInfoIter->second;
+                    warlockInfo.ClassIndex = "Warlock";
+                    warlockInfo.ClassName = "Warlock";
+                    warlockInfo.ClassEnum = EnumCharClass::Warlock;
+                    warlockInfo.Code = "wlk";
+                    warlockInfo.StrAllSkills = "+{1} to Warlock Skill Levels";
+                    warlockInfo.StrClassOnly = "(Warlock Only)";
+                    warlockInfo.StrSklTreeTab1 = "Warlock Skills";
+                    warlockInfo.StrSklTreeTab2 = "Warlock Skills";
+                    warlockInfo.StrSklTreeTab3 = "Warlock Skills";
+                    warlockInfo.StrSkillTab1 = "+{2} to Warlock Skills";
+                    warlockInfo.StrSkillTab2 = "+{2} to Warlock Skills";
+                    warlockInfo.StrSkillTab3 = "+{2} to Warlock Skills";
+                    warlockInfo.Skills.assign(30, 0);
+                    charClassInfo[nextIdx] = warlockInfo;
+                    charClassEnumMap[EnumCharClass::Warlock] = nextIdx;
+                    charClassNameMap[warlockInfo.ClassName] = nextIdx;
+                }
             }
         }
 
@@ -681,6 +718,11 @@ namespace d2ce
 
             iter->second.Code = code;
             charClassCodeMap[code] = iter->second.ClassEnum;
+        }
+
+        if (charClassCodeMap.find("wlk") == charClassCodeMap.end())
+        {
+            charClassCodeMap["wlk"] = EnumCharClass::Warlock;
         }
 
         s_CharClassCodeMap.swap(charClassCodeMap);

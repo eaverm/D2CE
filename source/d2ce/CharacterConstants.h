@@ -52,7 +52,7 @@ namespace d2ce
     constexpr std::uint32_t GOLD_IN_STASH_LIMIT = 2500000;
 
     // character class
-    enum class EnumCharClass : std::uint8_t { Amazon, Sorceress, Necromancer, Paladin, Barbarian, Druid, Assassin };
+    enum class EnumCharClass : std::uint8_t { Amazon, Sorceress, Necromancer, Paladin, Barbarian, Druid, Assassin, Warlock };
 
     // character status
     enum class EnumCharStatus : std::uint8_t { NoDeaths, Hardcore = 0x04, Died = 0x08, Expansion = 0x20, Ladder = 0x40, Dead = 0x0C };
